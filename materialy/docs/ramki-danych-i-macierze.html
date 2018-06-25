@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Metody przetwarzania danych meteorologicznych w języku programowania R</title>
+  <meta name="description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Metody przetwarzania danych meteorologicznych w języku programowania R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="figures/cover.png" />
+  <meta property="og:description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)" />
+  <meta name="github-repo" content="bczernecki/przetwarzanie" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Metody przetwarzania danych meteorologicznych w języku programowania R" />
+  
+  <meta name="twitter:description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)" />
+  <meta name="twitter:image" content="figures/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="podstawy-r-czesc-2.html">
+<link rel="next" href="wczyt-i-zapis-danych.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="index.html">Metody przetwarzania danych (...)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Wprowadzenie</a></li>
+<li class="chapter" data-level="1" data-path="whyr.html"><a href="whyr.html"><i class="fa fa-check"></i><b>1</b> <strong>R</strong></a><ul>
+<li class="chapter" data-level="1.1" data-path="whyr.html"><a href="whyr.html#kilka-sow-o-r"><i class="fa fa-check"></i><b>1.1</b> Kilka słów o <strong>R</strong> …</a></li>
+<li class="chapter" data-level="1.2" data-path="whyr.html"><a href="whyr.html#dlaczego-warto-uczyc-sie-r"><i class="fa fa-check"></i><b>1.2</b> Dlaczego warto uczyć się <strong>R</strong>?</a></li>
+<li class="chapter" data-level="1.3" data-path="whyr.html"><a href="whyr.html#x-przykazan-nauki-r"><i class="fa fa-check"></i><b>1.3</b> X przykazań nauki <strong>R</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="whyr.html"><a href="whyr.html#od-czego-zaczac"><i class="fa fa-check"></i><b>1.4</b> Od czego zacząć?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="podstawy-r.html"><a href="podstawy-r.html"><i class="fa fa-check"></i><b>2</b> Podstawy <strong>R</strong></a><ul>
+<li class="chapter" data-level="2.1" data-path="podstawy-r.html"><a href="podstawy-r.html#terminal-r"><i class="fa fa-check"></i><b>2.1</b> Terminal R</a></li>
+<li class="chapter" data-level="2.2" data-path="podstawy-r.html"><a href="podstawy-r.html#arytmetyka"><i class="fa fa-check"></i><b>2.2</b> Arytmetyka</a></li>
+<li class="chapter" data-level="2.3" data-path="podstawy-r.html"><a href="podstawy-r.html#tworzenie-obiektow"><i class="fa fa-check"></i><b>2.3</b> Tworzenie obiektów</a></li>
+<li class="chapter" data-level="2.4" data-path="podstawy-r.html"><a href="podstawy-r.html#generowanie-ciagow-liczbowych"><i class="fa fa-check"></i><b>2.4</b> Generowanie ciągów liczbowych</a></li>
+<li class="chapter" data-level="2.5" data-path="podstawy-r.html"><a href="podstawy-r.html#aczenie-obiektow"><i class="fa fa-check"></i><b>2.5</b> Łączenie obiektów</a></li>
+<li class="chapter" data-level="" data-path="podstawy-r.html"><a href="podstawy-r.html#zadania-sprawdzajace"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html"><i class="fa fa-check"></i><b>3</b> Podstawy <strong>R </strong> - część 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#r-skrypt"><i class="fa fa-check"></i><b>3.1</b> R skrypt</a><ul>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#jak-dziaa-skrypt-r"><i class="fa fa-check"></i>Jak działa skrypt R?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#praca-ze-skryptem"><i class="fa fa-check"></i><b>3.2</b> Praca ze skryptem</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#komentarze"><i class="fa fa-check"></i><b>3.2.1</b> Komentarze</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#wektory-i-podstawowe-operacje-na-wektorach"><i class="fa fa-check"></i><b>3.3</b> Wektory i podstawowe operacje na wektorach</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#typy-danych-wektorowych"><i class="fa fa-check"></i><b>3.3.1</b> Typy danych wektorowych</a></li>
+<li class="chapter" data-level="3.3.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie-wektorow"><i class="fa fa-check"></i><b>3.3.2</b> Indeksowanie wektorów</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie-z-uzyciem-warunkow-logicznych"><i class="fa fa-check"></i><b>3.4</b> Indeksowanie z użyciem warunków logicznych</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#testowanie-warunkow-logicznych"><i class="fa fa-check"></i><b>3.4.1</b> Testowanie warunków logicznych</a></li>
+<li class="chapter" data-level="3.4.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#funkcja-which"><i class="fa fa-check"></i><b>3.4.2</b> Funkcja <em>which</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadania-podsumowujace"><i class="fa fa-check"></i><b>3.5</b> Zadania podsumowujące</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#skrypt"><i class="fa fa-check"></i><b>3.5.1</b> Skrypt</a></li>
+<li class="chapter" data-level="3.5.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#tworzenie-wektorow"><i class="fa fa-check"></i><b>3.5.2</b> Tworzenie wektorów</a></li>
+<li class="chapter" data-level="3.5.3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie"><i class="fa fa-check"></i><b>3.5.3</b> Indeksowanie</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadanie-domowe"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadania-sprawdzajace-1"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html"><i class="fa fa-check"></i><b>4</b> Ramki danych i macierze</a><ul>
+<li class="chapter" data-level="4.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#ramki-danych"><i class="fa fa-check"></i><b>4.1</b> Ramki danych</a></li>
+<li class="chapter" data-level="4.2" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#praca-na-ramkach-danych"><i class="fa fa-check"></i><b>4.2</b> Praca na ramkach danych</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#jak-odnosic-sie-do-elementow-ramki"><i class="fa fa-check"></i><b>4.2.1</b> Jak odnosić się do elementów ramki?</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#tworzenie-ramek-danych"><i class="fa fa-check"></i><b>4.2.2</b> Tworzenie ramek danych</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#macierze"><i class="fa fa-check"></i><b>4.3</b> Macierze</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#indeksowanie-macierzy"><i class="fa fa-check"></i><b>4.3.1</b> Indeksowanie macierzy</a></li>
+<li class="chapter" data-level="" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#zadanie-domowe-1"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#zadania-sprawdzajace-2"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html"><i class="fa fa-check"></i><b>5</b> Wczyt i zapis danych</a><ul>
+<li class="chapter" data-level="5.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#katalog-roboczy"><i class="fa fa-check"></i><b>5.1</b> Katalog roboczy</a></li>
+<li class="chapter" data-level="5.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#wczyt-danych"><i class="fa fa-check"></i><b>5.2</b> Wczyt danych</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-tekstowy-csv-i-pokrewne"><i class="fa fa-check"></i><b>5.2.1</b> Format tekstowy (CSV i pokrewne)</a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadania-kontrolne"><i class="fa fa-check"></i>Zadania kontrolne</a></li>
+<li class="chapter" data-level="5.2.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#pliki-tekstowe-o-staej-szerokosci-kolumn"><i class="fa fa-check"></i><b>5.2.2</b> Pliki tekstowe o stałej szerokości kolumn</a></li>
+<li class="chapter" data-level="5.2.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-excela-.xls-.xlsx"><i class="fa fa-check"></i><b>5.2.3</b> Format Excela (.xls / .xlsx)</a></li>
+<li class="chapter" data-level="5.2.4" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-binarny-r"><i class="fa fa-check"></i><b>5.2.4</b> Format binarny <strong>R</strong></a></li>
+<li class="chapter" data-level="5.2.5" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#rds"><i class="fa fa-check"></i><b>5.2.5</b> RDS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zapis-danych"><i class="fa fa-check"></i><b>5.3</b> Zapis danych</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#dane-tekstowe-csv-i-pokrewne"><i class="fa fa-check"></i><b>5.3.1</b> Dane tekstowe (csv i pokrewne)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#arkusze"><i class="fa fa-check"></i><b>5.3.2</b> Arkusze kalkulacyjne</a></li>
+<li class="chapter" data-level="5.3.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#formaty-natywne-r"><i class="fa fa-check"></i><b>5.3.3</b> Formaty natywne <strong>R</strong></a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadanie-domowe-2"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadanie-sprawdzajace"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="petle.html"><a href="petle.html"><i class="fa fa-check"></i><b>6</b> Pętle</a><ul>
+<li class="chapter" data-level="6.1" data-path="petle.html"><a href="petle.html#petla-for"><i class="fa fa-check"></i><b>6.1</b> Pętla <em>for</em></a><ul>
+<li class="chapter" data-level="6.1.1" data-path="petle.html"><a href="petle.html#zadania-treningowe---czesc-i"><i class="fa fa-check"></i><b>6.1.1</b> Zadania treningowe - część I</a></li>
+<li class="chapter" data-level="6.1.2" data-path="petle.html"><a href="petle.html#zadania-treningowe---czesc-ii"><i class="fa fa-check"></i><b>6.1.2</b> Zadania treningowe - część II</a></li>
+<li class="chapter" data-level="6.1.3" data-path="petle.html"><a href="petle.html#petla-w-petli"><i class="fa fa-check"></i><b>6.1.3</b> Pętla w pętli</a></li>
+<li class="chapter" data-level="6.1.4" data-path="petle.html"><a href="petle.html#wykorzystanie-petli-for-do-pobierania-danych"><i class="fa fa-check"></i><b>6.1.4</b> Wykorzystanie pętli for do pobierania danych</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="petle.html"><a href="petle.html#petla-while"><i class="fa fa-check"></i><b>6.2</b> Pętla <em>while</em></a><ul>
+<li class="chapter" data-level="6.2.1" data-path="petle.html"><a href="petle.html#przykad-z-petla-while"><i class="fa fa-check"></i><b>6.2.1</b> Przykład z pętlą <em>while</em></a></li>
+<li class="chapter" data-level="" data-path="petle.html"><a href="petle.html#zadanie-domowe-3"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="petle.html"><a href="petle.html#zadanie-sprawdzajace-1"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html"><i class="fa fa-check"></i><b>7</b> Czas i napisy</a><ul>
+<li class="chapter" data-level="7.1" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#date"><i class="fa fa-check"></i><b>7.1</b> Date</a><ul>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-sprawdzajace-2"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+<li class="chapter" data-level="7.1.1" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#w-jaki-sposob-najszybciej-utworzyc-ciag-dat"><i class="fa fa-check"></i><b>7.1.1</b> W jaki sposób najszybciej utworzyć ciąg dat?</a></li>
+<li class="chapter" data-level="7.1.2" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#operowanie-datami"><i class="fa fa-check"></i><b>7.1.2</b> Operowanie datami</a></li>
+<li class="chapter" data-level="7.1.3" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#biblioteka-lubridate"><i class="fa fa-check"></i><b>7.1.3</b> Biblioteka <code>lubridate</code></a></li>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie"><i class="fa fa-check"></i>Zadanie</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#posixct"><i class="fa fa-check"></i><b>7.2</b> POSIXct</a><ul>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-domowe-4"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-podsumowujace"><i class="fa fa-check"></i>Zadanie podsumowujące</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html"><i class="fa fa-check"></i><b>8</b> dplyr - część I</a><ul>
+<li class="chapter" data-level="8.1" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#aczenie-ramek-danych---left_join"><i class="fa fa-check"></i><b>8.1</b> Łączenie ramek danych - <code>left_join()</code></a><ul>
+<li class="chapter" data-level="8.1.1" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#aczenie-danych-po-dacie"><i class="fa fa-check"></i><b>8.1.1</b> Łączenie danych po dacie</a></li>
+<li class="chapter" data-level="" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#zadanie-domowe-5"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html"><i class="fa fa-check"></i><b>9</b> dplyr - część II</a><ul>
+<li class="chapter" data-level="" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#dane"><i class="fa fa-check"></i>Dane</a></li>
+<li class="chapter" data-level="9.1" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#wybor-kolumn---select"><i class="fa fa-check"></i><b>9.1</b> Wybór kolumn - <code>select()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#filtrowanie"><i class="fa fa-check"></i><b>9.2</b> Filtrowanie</a></li>
+<li class="chapter" data-level="9.3" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#sortowanie---arrange"><i class="fa fa-check"></i><b>9.3</b> Sortowanie - <code>arrange</code></a></li>
+<li class="chapter" data-level="9.4" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#przetwarzanie-potokowe"><i class="fa fa-check"></i><b>9.4</b> Przetwarzanie potokowe</a></li>
+<li class="chapter" data-level="9.5" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#group_by-oraz-summarise"><i class="fa fa-check"></i><b>9.5</b> <code>group_by()</code> oraz <code>summarise()</code></a></li>
+<li class="chapter" data-level="" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#zadanie-sprawdzajace-3"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html"><i class="fa fa-check"></i><b>10</b> Postać wąska i szeroka</a><ul>
+<li class="chapter" data-level="10.1" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#postac-waska"><i class="fa fa-check"></i><b>10.1</b> Postać wąska</a><ul>
+<li><a href="postac-waska-i-szeroka.html#konwersja-postaci-waskiej-do-szerokiej---spread">Konwersja postaci wąskiej do szerokiej - <code>spread()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#postac-szeroka"><i class="fa fa-check"></i><b>10.2</b> Postać szeroka</a><ul>
+<li><a href="postac-waska-i-szeroka.html#konwersja-postaci-szerokiej-do-waskiej---gather">Konwersja postaci szerokiej do wąskiej - <code>gather()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#sklejanie-i-rozszczepianie-kolumn"><i class="fa fa-check"></i><b>10.3</b> Sklejanie i rozszczepianie kolumn</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="grafika.html"><a href="grafika.html"><i class="fa fa-check"></i><b>11</b> Grafika</a><ul>
+<li class="chapter" data-level="11.1" data-path="grafika.html"><a href="grafika.html#graphics"><i class="fa fa-check"></i><b>11.1</b> graphics</a></li>
+<li class="chapter" data-level="11.2" data-path="grafika.html"><a href="grafika.html#ggplot2"><i class="fa fa-check"></i><b>11.2</b> ggplot2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="instalacja.html"><a href="instalacja.html"><i class="fa fa-check"></i>Instalacja</a><ul>
+<li><a href="instalacja.html#instalacja-r">Instalacja <strong>R</strong></a></li>
+<li><a href="instalacja.html#instalacja-rstudio">Instalacja <strong>RStudio</strong></a></li>
+<li class="chapter" data-level="" data-path="instalacja.html"><a href="instalacja.html#instalacja-bibliotek"><i class="fa fa-check"></i>Instalacja bibliotek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="sprawy-organizacyjne.html"><a href="sprawy-organizacyjne.html"><i class="fa fa-check"></i>Sprawy organizacyjne</a><ul>
+<li class="chapter" data-level="" data-path="sprawy-organizacyjne.html"><a href="sprawy-organizacyjne.html#kolokwium-koncowe---przykadowe-zagadnienia"><i class="fa fa-check"></i>Kolokwium końcowe - przykładowe zagadnienia:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i>Bibliografia</a></li>
+<li class="divider"></li>
+<li><a href="http://www.iqdata.pl" target="blank">Bartosz Czernecki 2017-18</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metody przetwarzania danych meteorologicznych w języku programowania R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="ramki-danych-i-macierze" class="section level1">
+<h1><span class="header-section-number">Rozdział 4</span> Ramki danych i macierze</h1>
+<!-- ```{bash} -->
+<!-- ls -->
+<!-- ``` -->
+<p>W poprzednim rozdziale omówiono kilka schematów posługiwania się wektorami, który są jednocześnie najbardziej elementarnym sposobem przetwarzania danych w <strong>R</strong>.</p>
+<div id="ramki-danych" class="section level2">
+<h2><span class="header-section-number">4.1</span> Ramki danych</h2>
+<p>Przy analizie danych (w tym także danych meteorologicznych) wykorzystywane są inne niż wektory schematy przechowywania i przetwarzania danych. Najczęściej są to tzw. ramki danych (ang. <em>data frame</em>), które na pierwszy rzut oka przypominają tradycyjną “tabelkę z Excela”.</p>
+<p>Najważniejsze cechy ramki danych wypisano poniżej:</p>
+<ol style="list-style-type: decimal">
+<li>Każda ramka danych powinna zawierać wartości uporządkowane w kolumnach.</li>
+<li>Każda z kolumn jest wektorem i musi mieć taką samą długość.</li>
+<li>Różne kolumny mogą przechowywać różne typy danych.</li>
+</ol>
+<p>Poniżej zamieszczono fragment ramki danych zawiera dane pomiarowe ze stacji Wojewódzkiego Inspektoratu Ochrony Środowiska - Poznań-Polanka. W kolumnie <em>date</em> zawarto dane w typie umożliwiającym przechowywanie czasu, w kolejnych kolumnach umieszczono wartości koncentracji PM10, PM2.5, temperatury powietrza, prędkości wiatru o oraz kierunku wiatru.</p>
+<pre><code>##                      date PZ_Pol_pm10 PZ_Pol_pm25 PZ_T2M PZ_WS PZ_WD
+## 95034 2016-11-07 17:00:00          24          16      4     1   278
+## 95035 2016-11-07 18:00:00          22          17      4     1   287
+## 95036 2016-11-07 19:00:00          22          17      3     1   322
+## 95037 2016-11-07 20:00:00          23          16      3     1   326
+## 95038 2016-11-07 21:00:00          24          16      3     0   307
+## 95039 2016-11-07 22:00:00          24          16      2     0   303</code></pre>
+</div>
+<div id="praca-na-ramkach-danych" class="section level2">
+<h2><span class="header-section-number">4.2</span> Praca na ramkach danych</h2>
+<p>Do nauki pracy na ramkach danych wykorzystamy domyślnie wgrane zbiór danych o nazwie <em>airquality</em>. Wczytanie przykładowego zbioru danych wgranego wraz z <strong>R</strong> jest możliwe poprzez funkcję <code>data()</code>. Nasz zbiór nazywa się <code>airquality</code>. Szczegóły dotyczące analizowanego zbioru danych dostępne są po wydaniu komendy <code>?airquality</code> lub <code>?&quot;airquality&quot;</code></p>
+<p>Jeśli chcemy wczytać i wyświetlić pierwsze kilka rzędów naszej ramki danych spróbujmy najpierw ją wczytać do pamięci komputera a następnie wyświetlić pierwsze lub ostatnie 6 wierszy za pomocą funkcji <code>head()</code> lub <code>tail()</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(<span class="st">&quot;airquality&quot;</span>)
+<span class="kw">head</span>(airquality) <span class="co"># funkcja head() wyświetla pierwsze 6 wartości</span></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4   67     5   1
+## 2    36     118  8.0   72     5   2
+## 3    12     149 12.6   74     5   3
+## 4    18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6    28      NA 14.9   66     5   6</code></pre>
+<p>Po wczytaniu ramki danych powinna być ona dostępne w prawym górnym rogu środowiska RStudio w zakładce <em>Environment</em>. Możesz kliknąć w tabelkę widoczną obok nazwy ramki danych i wyświetlić jej zawartość w postaci graficznej. Klikając na nazwę kolumny możesz także automatycznie posortować bieżący widok rosnąco/malejąco względem wartości w danej kolumnie. Standardowo, po wczytaniu zbioru danych można użyć funkcję <code>summary()</code> wyświetlającą podsumowanie statystyczne wartości w poszczególnych kolumnach ramki danych.</p>
+<!-- Jeśli chcemy wyświetlić tylko pierwszą kolumnę możemy zrobić wywołanie analogiczne jak dla macierzy [] lub użyć symbolu '$' -->
+<div id="jak-odnosic-sie-do-elementow-ramki" class="section level3">
+<h3><span class="header-section-number">4.2.1</span> Jak odnosić się do elementów ramki?</h3>
+<div id="odniesienie-przez-nazwe" class="section level4">
+<h4><span class="header-section-number">4.2.1.1</span> Odniesienie przez nazwę</h4>
+<p>Wyboru kolumny z ramki danych dokonuje się za pomocą operatora <code>$</code> poprzedzonego nazwą ramki danych a po znaku <code>$</code> wpisuje się nazwę kolumny. Jeśli nie jesteśmy pewni jakie są nazwy kolumn w naszej ramce danych można je zawsze sprawdzić za pomocą funkcji <code>colnames()</code> lub <code>names()</code>. Pamiętaj także o stosowaniu tabulatora!</p>
+<p>Przykładowo, jeśli chcemy pobrać do analizy całą kolumnę z wartościami temperatur (<em>Temp</em>) z ramki danych <code>airquality</code> to komenda powinna wyglądać następująco:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality<span class="op">$</span>Temp</code></pre></div>
+<pre><code>##   [1] 67 72 74 62 56 66 65 59 61 69 74 69 66 68 58 64 66 57 68 62 59 73 61
+##  [24] 61 57 58 57 67 81 79 76 78 74 67 84 85 79 82 87 90 87 93 92 82 80 79
+##  [47] 77 72 65 73 76 77 76 76 76 75 78 73 80 77 83 84 85 81 84 83 83 88 92
+##  [70] 92 89 82 73 81 91 80 81 82 84 87 85 74 81 82 86 85 82 86 88 86 83 81
+##  [93] 81 81 82 86 85 87 89 90 90 92 86 86 82 80 79 77 79 76 78 78 77 72 75
+## [116] 79 81 86 88 97 94 96 94 91 92 93 93 87 84 80 78 75 73 81 76 77 71 71
+## [139] 78 67 76 68 82 64 71 81 69 63 70 77 75 76 68</code></pre>
+<p><strong>Zadania kontrolne</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Wiedząc, że wynikiem pobrania kolumny z ramki danych jest wektor oblicz średnią temperaturę powietrza zbioru <code>airquality</code> w Fahrenheitach oraz stopniach Celsjusza <code>(T[*C] = (T[*F]-32)*(5/9))</code></p></li>
+<li><p>Oblicz minimalną prędkość wiatru z pierwszych 20-tu pomiarów</p></li>
+<li><p>Utwórz histogram temperatur (funkcja <code>hist()</code>)</p></li>
+</ol>
+</div>
+<div id="odniesienie-przez-indeks" class="section level4">
+<h4><span class="header-section-number">4.2.1.2</span> Odniesienie przez indeks</h4>
+<p>Praca na wartościach przechowywanych w ramkach danych możliwa jest także poprzez indeksowanie operatorem <code>[]</code>, którego używaliśmy poprzednio przy wektorach. Jedyna różnica polega na tym, że w nawiasie kwadratowym należy zadeklarować 2 wektory określejące położenie wierszy i kolumn oddzielone przecinkiem.</p>
+<p>Przed przecinkiem należy wskazać indeksy wierszy, a po przecinku indeksy kolumn. Jeżeli pole indeksujące wierszy lub kolumn pozostanie puste wówczas zostają wybrane wszystkie elementy.</p>
+<p>Jeśli chcemy wybrać wszystkie wartości z kolumny <code>Temp</code> wówczas musimy wiedzieć, że jest to 4-ta kolumna. Jako, że chcemy wybrać wszystkie rzędy to równoważnik dla komendy <code>airquality$Temp</code> to: <code>airquality[,4]</code>.</p>
+<p>Jeśli chcemy wyświetlić cały pierwszy rząd to polecenie powinno wyglądać następująco:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality[<span class="dv">1</span>,]</code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4   67     5   1</code></pre>
+<p>Można także wskazać dowolne wiersze, np. od 10-ego do 15-ego w odwrotnej kolejności i tylko wybrane kolumny, np. dla ozonu i wiatru (1-sza i 3-cia). Istotne jest tylko podanie odpowiedniego wektora wartości w odpowiednich miejscach:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality[<span class="dv">15</span><span class="op">:</span><span class="dv">10</span>,<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>)]</code></pre></div>
+<pre><code>##    Ozone Wind
+## 15    18 13.2
+## 14    14 10.9
+## 13    11  9.2
+## 12    16  9.7
+## 11     7  6.9
+## 10    NA  8.6</code></pre>
+<p><strong>Zadania kontrolne</strong></p>
+<ol style="list-style-type: decimal">
+<li><p>Ze zbioru <code>airquality</code> wybierz za pomocą jednego polecenia wiersze: 5-10, 15-17 i 100-102 oraz wszystkie kolumny</p></li>
+<li><p>Korzystając z indeksów ujemnych (tzw. wybór przez negację pomiń pierwsze 3 kolumny i pierwsze 100 wierszy)</p></li>
+<li><p>Korzystając z wyrażeń logicznych lub funkcji <code>which()</code> wyświetl jedynie wiersze, w których temperatura powietrza była wyższa niż 90*F</p></li>
+</ol>
+</div>
+</div>
+<div id="tworzenie-ramek-danych" class="section level3">
+<h3><span class="header-section-number">4.2.2</span> Tworzenie ramek danych</h3>
+<p>Tworzenie i modyfikacje ramek danych jest możliwe przynajmniej na kilka sposobów. Najbardziej podstawowym jest zastosowanie funkcji <code>data.frame()</code>, która jako argumenty przyjmuje wartości wektorów o równych długościach. Przykładowy fragment kodu stworzy nam ramkę danych nazwaną <code>ramka</code> zawierającą 3 nazwane kolumny i 5 wierszy:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ramka &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">literki=</span>letters[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>], <span class="dt">cyferki=</span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span>, <span class="dt">losowe=</span><span class="kw">runif</span>(<span class="dv">5</span>))
+ramka</code></pre></div>
+<pre><code>##   literki cyferki    losowe
+## 1       a       1 0.3140620
+## 2       b       2 0.8211992
+## 3       c       3 0.7793354
+## 4       d       4 0.1656139
+## 5       e       5 0.8295460</code></pre>
+<div id="modyfikacja-ramek-danych" class="section level4">
+<h4><span class="header-section-number">4.2.2.1</span> Modyfikacja ramek danych</h4>
+<p>Dane przechowywane w ramkach danych można modyfikować. Jeśli zmiana ma dotyczyć pojedynczej wartości to należy stworzyć komendę zwracającą nam tą wartość i nadpisać do niej nową wartość operatorem przypisania. Przykładowo, modyfikacja pierwszej wartości temperatury powietrza ze zbioru <code>airquality</code> możliwa jest w poniższy sposób:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality<span class="op">$</span>Temp[<span class="dv">1</span>] <span class="co"># wyswietlamy wartosc pierwotna</span></code></pre></div>
+<pre><code>## [1] 67</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality<span class="op">$</span>Temp[<span class="dv">1</span>] &lt;-<span class="st"> </span><span class="dv">100</span> <span class="co"># nadajemy nowa wartosc</span>
+<span class="kw">head</span>(airquality) <span class="co"># wyswietlamy dla pewnosci pierwsze 6 rzedow</span></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day
+## 1    41     190  7.4  100     5   1
+## 2    36     118  8.0   72     5   2
+## 3    12     149 12.6   74     5   3
+## 4    18     313 11.5   62     5   4
+## 5    NA      NA 14.3   56     5   5
+## 6    28      NA 14.9   66     5   6</code></pre>
+<p>Często do istniejącej ramki danych chcemy dopisać wyniki obliczeń jako nową kolumnę. W <strong>R</strong> łączenie odpowiednich obiektów w ramki danych po kolumnach jest możliwe dzięki funkcji <code>cbind.data.frame()</code>, natomiast do łączenia po wierszach służy funkcja <code>rbind.data.frame()</code>.</p>
+<p>Do utworzenia nowej kolumny szybszym rozwiązaniem w wielu przypadkach jest po prostu wykorzystanie do tego celu operatora przypisania <code>&lt;-</code> wraz z odwołaniem do istniejącej ramki danych i nazwą nowej kolumny. Przeliczmy zatem temperaturę z Fahrenheitów na stopnie Celsjusza i zapiszmy je w kolumnie <code>TempC</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># przeliczamy temperature z Fahrenheitow na Celsjusze i zapisujemy do nowej </span>
+<span class="co"># kolumny &#39;TempC&#39;</span>
+airquality<span class="op">$</span>TempC &lt;-<span class="st">  </span>(airquality<span class="op">$</span>Temp<span class="dv">-32</span>)<span class="op">*</span>(<span class="dv">5</span><span class="op">/</span><span class="dv">9</span>)
+<span class="kw">head</span>(airquality) <span class="co"># wyswietlmy pierwsze 6 rzedow dla pewnosci</span></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day    TempC
+## 1    41     190  7.4  100     5   1 37.77778
+## 2    36     118  8.0   72     5   2 22.22222
+## 3    12     149 12.6   74     5   3 23.33333
+## 4    18     313 11.5   62     5   4 16.66667
+## 5    NA      NA 14.3   56     5   5 13.33333
+## 6    28      NA 14.9   66     5   6 18.88889</code></pre>
+</div>
+</div>
+</div>
+<div id="macierze" class="section level2">
+<h2><span class="header-section-number">4.3</span> Macierze</h2>
+<p>Oprócz ramek danych bardzo często w zastosowaniach GIS lub na potrzeby tzw. reanaliz meteorologicznych stosowane są dane zapisane w formie wielowymiarowych macierzy. Macierze w najprostszej postaci (2-wymiarowej) to po prostu tabele z danymi, wizualnie bardzo podobne do ramek danych, przy czym nie posiadają one nazw kolumn i nie można się do nich odnosić poprzez nazwę a jedynie poprzez <code>[]</code>.</p>
+<p>Tworzenie macierzy wielowymiarowych odbywa się poprzez funkcję <code>array()</code> a w postaci 2-wymiarowej prostsza w użyciu jest funkcja <code>matrix()</code> (w dosłownym tłumaczeniu macierz). Za pomocą opcji <code>nrow</code> oraz <code>ncol</code> można zadeklarować liczbę wierszy i kolumn tworzonej macierzy. Przykładowo:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dt">nrow=</span><span class="dv">3</span>) <span class="co"># tworzymy macierz z wartościami od 1 do 12 w 3-ech rzedach</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3] [,4]
+## [1,]    1    4    7   10
+## [2,]    2    5    8   11
+## [3,]    3    6    9   12</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>, <span class="dt">ncol=</span><span class="dv">3</span>) <span class="co"># tworzymy macierz z wartościami od 1 do 12 w 3-ech kolumnach</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    5    9
+## [2,]    2    6   10
+## [3,]    3    7   11
+## [4,]    4    8   12</code></pre>
+<p>Zwróć uwagę, że poszczególne elementy są użyte do wypełnienia w pierwszej kolejności 1-szej kolumny, potem 2-giej, itd. Jeśli chcemy użyć danych do wypełnienia po rzędach, musimy komputer o tym poinformować za pomocą opcji <code>byrow=T</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2&lt;-<span class="kw">matrix</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">12</span>,<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span>T)
+m2 </code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    2    3
+## [2,]    4    5    6
+## [3,]    7    8    9
+## [4,]   10   11   12</code></pre>
+<p>Tworzenie macierzy można wykonywać np. poprzez złączenie kolumn lub rzędów o jednakowej długości. W zależności od tego w jaki sposób chcemy macierz utworzyć wykorzystujemy funkcje <code>cbind()</code>, (skrót od <em>column bind</em>) lub <code>rbind()</code> (skrót od <em>row bind</em>):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">x &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">10</span>,<span class="dv">5</span>) <span class="co"># tworzymy wektor &#39;x&#39;</span>
+x</code></pre></div>
+<pre><code>## [1]  1  3  2 10  5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">y &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">5</span> <span class="co"># tworzymy wektor &#39;y&#39;</span>
+m1&lt;-<span class="kw">cbind</span>(x,y) <span class="co"># laczymy wektory po kolumnach i tworzymy macierz &#39;m1&#39;</span>
+m1 <span class="co"># wyswietlamy powstala macierz</span></code></pre></div>
+<pre><code>##       x y
+## [1,]  1 1
+## [2,]  3 2
+## [3,]  2 3
+## [4,] 10 4
+## [5,]  5 5</code></pre>
+<p>Analogicznie można utworzyć macierz łącząc wektory po wierszach za pomocą funkcji <code>rbind()</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2 &lt;-<span class="st"> </span><span class="kw">rbind</span>(x,y) <span class="co"># laczymy po wierszach i tworzymy nowa macierz `m2`</span>
+m2</code></pre></div>
+<pre><code>##   [,1] [,2] [,3] [,4] [,5]
+## x    1    3    2   10    5
+## y    1    2    3    4    5</code></pre>
+<p>Możemy także uzyskać podstawowe informacje oraz wykonać podstawowe operacje matematyczne na macierzach:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">dim</span>(m1) <span class="co"># podaje wymiary macierzy</span></code></pre></div>
+<pre><code>## [1] 5 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">t</span>(m1) <span class="co"># transpozycja</span></code></pre></div>
+<pre><code>##   [,1] [,2] [,3] [,4] [,5]
+## x    1    3    2   10    5
+## y    1    2    3    4    5</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="fl">5.2</span><span class="op">*</span>m1 <span class="co"># iloczyn skalarny</span></code></pre></div>
+<pre><code>##         x    y
+## [1,]  5.2  5.2
+## [2,] 15.6 10.4
+## [3,] 10.4 15.6
+## [4,] 52.0 20.8
+## [5,] 26.0 26.0</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1<span class="op">+</span>m1 <span class="co"># dodawanie macierzy</span></code></pre></div>
+<pre><code>##       x  y
+## [1,]  2  2
+## [2,]  6  4
+## [3,]  4  6
+## [4,] 20  8
+## [5,] 10 10</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m1<span class="op">*</span>m1 <span class="co"># mnożenie analogicznych elementów</span></code></pre></div>
+<pre><code>##        x  y
+## [1,]   1  1
+## [2,]   9  4
+## [3,]   4  9
+## [4,] 100 16
+## [5,]  25 25</code></pre>
+<div id="indeksowanie-macierzy" class="section level3">
+<h3><span class="header-section-number">4.3.1</span> Indeksowanie macierzy</h3>
+<p>Wyciąganie poszczególnych elementów z macierzy wymaga zadeklarowania jej wszystkich wymiarów:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2&lt;-<span class="kw">matrix</span>(<span class="kw">c</span>(<span class="dv">1</span>,<span class="dv">3</span>,<span class="dv">2</span>,<span class="dv">5</span>,<span class="op">-</span><span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">9</span>),<span class="dt">ncol=</span><span class="dv">3</span>,<span class="dt">byrow=</span>T);m2</code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    1    3    2
+## [2,]    5   -1    2
+## [3,]    2    3    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># tworzymy macierz i ją wyświetlamy</span>
+
+m2[<span class="dv">2</span>,<span class="dv">3</span>] <span class="co">#element macierzy m2 w 2-gim rzędzie i 3-ciej kolumnie</span></code></pre></div>
+<pre><code>## [1] 2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2[<span class="dv">2</span>,] <span class="co">#cały 2-gi rząd</span></code></pre></div>
+<pre><code>## [1]  5 -1  2</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2[,<span class="dv">3</span>] <span class="co">#cała 3-cia kolumna</span></code></pre></div>
+<pre><code>## [1] 2 2 9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2[<span class="op">-</span><span class="dv">1</span>,]  <span class="co">#cała macierz m2 bez pierwszego rzędu</span></code></pre></div>
+<pre><code>##      [,1] [,2] [,3]
+## [1,]    5   -1    2
+## [2,]    2    3    9</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">m2[,<span class="op">-</span><span class="dv">1</span>] <span class="co">#i bez pierwszej kolumny</span></code></pre></div>
+<pre><code>##      [,1] [,2]
+## [1,]    3    2
+## [2,]   -1    2
+## [3,]    3    9</code></pre>
+<p>…</p>
+<p>Macierze w naukach atmosferycznych są stosowane przede wszystkim do nieco bardziej skomplikowanych obliczeń oraz do wizualizacji danych. Przetestujmy to drugie zastosowanie wczytując zbiór danych <code>volcano</code> zawierający cyfrowy model terenu pewnego wulkanu i zwizualizujmy go za pomocą funkcji <code>image()</code> oraz <code>contour()</code> lub jako model 3d z użyciem funkcji <code>persp()</code>. Postaraj się uzyskać poniższy efekt:</p>
+<div class="figure" style="text-align: center"><span id="fig:nice-fig"></span>
+<img src="ksiazka_files/figure-html/nice-fig-1.png" alt="Wulkan - rzut z góry" width="80%" />
+<p class="caption">
+Rysunek 4.1: Wulkan - rzut z góry
+</p>
+</div>
+<div class="figure" style="text-align: center"><span id="fig:nice-fig2"></span>
+<img src="ksiazka_files/figure-html/nice-fig2-1.png" alt="Wulkan - rzut perspektywiczny" width="672" />
+<p class="caption">
+Rysunek 4.2: Wulkan - rzut perspektywiczny
+</p>
+</div>
+</div>
+<div id="zadanie-domowe-1" class="section level3 unnumbered">
+<h3>Zadanie domowe</h3>
+<ol style="list-style-type: decimal">
+<li>Wykonaj przykłady z podręcznika P. Biecka dotyczące ramek danych i macierzy</li>
+<li>Przeczytaj z ww. podręcznika rozdział dotyczący list i ogólnego schematu pracy na danych tego typu</li>
+</ol>
+</div>
+<div id="zadania-sprawdzajace-2" class="section level3 unnumbered">
+<h3>Zadania sprawdzające</h3>
+<p><a href="https://goo.gl/forms/QkiVqWIiDJlrhLAQ2" class="uri">https://goo.gl/forms/QkiVqWIiDJlrhLAQ2</a></p>
+<!-- ``` -->
+<!-- par(mar = c(4, 4, .1, .1)) -->
+<!-- plot(pressure, type = 'b', pch = 19) -->
+<!-- ``` -->
+<!-- Odnośnik do figure \@ref(fig:nice-fig). -->
+<!-- Odnośnik do tabeli: \@ref(tab:nice-tab). -->
+<!-- ```{r nice-tab, tidy=FALSE} -->
+<!-- knitr::kable( -->
+<!--   head(iris, 20), caption = 'Ależ ładna tabelka!', -->
+<!--   booktabs = TRUE -->
+<!-- ) -->
+<!-- ``` -->
+
+</div>
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71227265-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="podstawy-r-czesc-2.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="wczyt-i-zapis-danych.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/bczernecki/przetwarzanie/edit/master/04-dataframe_matrix.Rmd",
+"text": "https://github.com/bczernecki/przetwarzanie/edit/master/%s"
+},
+"download": ["ksiazka.pdf", "ksiazka.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
