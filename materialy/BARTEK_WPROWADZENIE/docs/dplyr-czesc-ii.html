@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html >
+
+<head>
+
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Metody przetwarzania danych meteorologicznych w języku programowania R</title>
+  <meta name="description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)">
+  <meta name="generator" content="bookdown 0.5 and GitBook 2.6.7">
+
+  <meta property="og:title" content="Metody przetwarzania danych meteorologicznych w języku programowania R" />
+  <meta property="og:type" content="book" />
+  
+  <meta property="og:image" content="figures/cover.png" />
+  <meta property="og:description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)" />
+  <meta name="github-repo" content="bczernecki/przetwarzanie" />
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Metody przetwarzania danych meteorologicznych w języku programowania R" />
+  
+  <meta name="twitter:description" content="Przetwarzanie danych meteorologicznych w R (Hands on meteorological data processing in R)" />
+  <meta name="twitter:image" content="figures/cover.png" />
+
+
+
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  
+  
+<link rel="prev" href="dplyr-czesc-i.html">
+<link rel="next" href="postac-waska-i-szeroka.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+div.sourceCode { overflow-x: auto; }
+table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
+  margin: 0; padding: 0; vertical-align: baseline; border: none; }
+table.sourceCode { width: 100%; line-height: 100%; }
+td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
+td.sourceCode { padding-left: 5px; }
+code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code > span.dt { color: #902000; } /* DataType */
+code > span.dv { color: #40a070; } /* DecVal */
+code > span.bn { color: #40a070; } /* BaseN */
+code > span.fl { color: #40a070; } /* Float */
+code > span.ch { color: #4070a0; } /* Char */
+code > span.st { color: #4070a0; } /* String */
+code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code > span.ot { color: #007020; } /* Other */
+code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code > span.fu { color: #06287e; } /* Function */
+code > span.er { color: #ff0000; font-weight: bold; } /* Error */
+code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+code > span.cn { color: #880000; } /* Constant */
+code > span.sc { color: #4070a0; } /* SpecialChar */
+code > span.vs { color: #4070a0; } /* VerbatimString */
+code > span.ss { color: #bb6688; } /* SpecialString */
+code > span.im { } /* Import */
+code > span.va { color: #19177c; } /* Variable */
+code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code > span.op { color: #666666; } /* Operator */
+code > span.bu { } /* BuiltIn */
+code > span.ex { } /* Extension */
+code > span.pp { color: #bc7a00; } /* Preprocessor */
+code > span.at { color: #7d9029; } /* Attribute */
+code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li><a href="index.html">Metody przetwarzania danych (...)</a></li>
+
+<li class="divider"></li>
+<li class="chapter" data-level="" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i>Wprowadzenie</a></li>
+<li class="chapter" data-level="1" data-path="whyr.html"><a href="whyr.html"><i class="fa fa-check"></i><b>1</b> <strong>R</strong></a><ul>
+<li class="chapter" data-level="1.1" data-path="whyr.html"><a href="whyr.html#kilka-sow-o-r"><i class="fa fa-check"></i><b>1.1</b> Kilka słów o <strong>R</strong> …</a></li>
+<li class="chapter" data-level="1.2" data-path="whyr.html"><a href="whyr.html#dlaczego-warto-uczyc-sie-r"><i class="fa fa-check"></i><b>1.2</b> Dlaczego warto uczyć się <strong>R</strong>?</a></li>
+<li class="chapter" data-level="1.3" data-path="whyr.html"><a href="whyr.html#x-przykazan-nauki-r"><i class="fa fa-check"></i><b>1.3</b> X przykazań nauki <strong>R</strong></a></li>
+<li class="chapter" data-level="1.4" data-path="whyr.html"><a href="whyr.html#od-czego-zaczac"><i class="fa fa-check"></i><b>1.4</b> Od czego zacząć?</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="podstawy-r.html"><a href="podstawy-r.html"><i class="fa fa-check"></i><b>2</b> Podstawy <strong>R</strong></a><ul>
+<li class="chapter" data-level="2.1" data-path="podstawy-r.html"><a href="podstawy-r.html#terminal-r"><i class="fa fa-check"></i><b>2.1</b> Terminal R</a></li>
+<li class="chapter" data-level="2.2" data-path="podstawy-r.html"><a href="podstawy-r.html#arytmetyka"><i class="fa fa-check"></i><b>2.2</b> Arytmetyka</a></li>
+<li class="chapter" data-level="2.3" data-path="podstawy-r.html"><a href="podstawy-r.html#tworzenie-obiektow"><i class="fa fa-check"></i><b>2.3</b> Tworzenie obiektów</a></li>
+<li class="chapter" data-level="2.4" data-path="podstawy-r.html"><a href="podstawy-r.html#generowanie-ciagow-liczbowych"><i class="fa fa-check"></i><b>2.4</b> Generowanie ciągów liczbowych</a></li>
+<li class="chapter" data-level="2.5" data-path="podstawy-r.html"><a href="podstawy-r.html#aczenie-obiektow"><i class="fa fa-check"></i><b>2.5</b> Łączenie obiektów</a></li>
+<li class="chapter" data-level="" data-path="podstawy-r.html"><a href="podstawy-r.html#zadania-sprawdzajace"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html"><i class="fa fa-check"></i><b>3</b> Podstawy <strong>R </strong> - część 2</a><ul>
+<li class="chapter" data-level="3.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#r-skrypt"><i class="fa fa-check"></i><b>3.1</b> R skrypt</a><ul>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#jak-dziaa-skrypt-r"><i class="fa fa-check"></i>Jak działa skrypt R?</a></li>
+</ul></li>
+<li class="chapter" data-level="3.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#praca-ze-skryptem"><i class="fa fa-check"></i><b>3.2</b> Praca ze skryptem</a><ul>
+<li class="chapter" data-level="3.2.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#komentarze"><i class="fa fa-check"></i><b>3.2.1</b> Komentarze</a></li>
+</ul></li>
+<li class="chapter" data-level="3.3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#wektory-i-podstawowe-operacje-na-wektorach"><i class="fa fa-check"></i><b>3.3</b> Wektory i podstawowe operacje na wektorach</a><ul>
+<li class="chapter" data-level="3.3.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#typy-danych-wektorowych"><i class="fa fa-check"></i><b>3.3.1</b> Typy danych wektorowych</a></li>
+<li class="chapter" data-level="3.3.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie-wektorow"><i class="fa fa-check"></i><b>3.3.2</b> Indeksowanie wektorów</a></li>
+</ul></li>
+<li class="chapter" data-level="3.4" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie-z-uzyciem-warunkow-logicznych"><i class="fa fa-check"></i><b>3.4</b> Indeksowanie z użyciem warunków logicznych</a><ul>
+<li class="chapter" data-level="3.4.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#testowanie-warunkow-logicznych"><i class="fa fa-check"></i><b>3.4.1</b> Testowanie warunków logicznych</a></li>
+<li class="chapter" data-level="3.4.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#funkcja-which"><i class="fa fa-check"></i><b>3.4.2</b> Funkcja <em>which</em></a></li>
+</ul></li>
+<li class="chapter" data-level="3.5" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadania-podsumowujace"><i class="fa fa-check"></i><b>3.5</b> Zadania podsumowujące</a><ul>
+<li class="chapter" data-level="3.5.1" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#skrypt"><i class="fa fa-check"></i><b>3.5.1</b> Skrypt</a></li>
+<li class="chapter" data-level="3.5.2" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#tworzenie-wektorow"><i class="fa fa-check"></i><b>3.5.2</b> Tworzenie wektorów</a></li>
+<li class="chapter" data-level="3.5.3" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#indeksowanie"><i class="fa fa-check"></i><b>3.5.3</b> Indeksowanie</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadanie-domowe"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="podstawy-r-czesc-2.html"><a href="podstawy-r-czesc-2.html#zadania-sprawdzajace-1"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html"><i class="fa fa-check"></i><b>4</b> Ramki danych i macierze</a><ul>
+<li class="chapter" data-level="4.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#ramki-danych"><i class="fa fa-check"></i><b>4.1</b> Ramki danych</a></li>
+<li class="chapter" data-level="4.2" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#praca-na-ramkach-danych"><i class="fa fa-check"></i><b>4.2</b> Praca na ramkach danych</a><ul>
+<li class="chapter" data-level="4.2.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#jak-odnosic-sie-do-elementow-ramki"><i class="fa fa-check"></i><b>4.2.1</b> Jak odnosić się do elementów ramki?</a></li>
+<li class="chapter" data-level="4.2.2" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#tworzenie-ramek-danych"><i class="fa fa-check"></i><b>4.2.2</b> Tworzenie ramek danych</a></li>
+</ul></li>
+<li class="chapter" data-level="4.3" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#macierze"><i class="fa fa-check"></i><b>4.3</b> Macierze</a><ul>
+<li class="chapter" data-level="4.3.1" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#indeksowanie-macierzy"><i class="fa fa-check"></i><b>4.3.1</b> Indeksowanie macierzy</a></li>
+<li class="chapter" data-level="" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#zadanie-domowe-1"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="ramki-danych-i-macierze.html"><a href="ramki-danych-i-macierze.html#zadania-sprawdzajace-2"><i class="fa fa-check"></i>Zadania sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html"><i class="fa fa-check"></i><b>5</b> Wczyt i zapis danych</a><ul>
+<li class="chapter" data-level="5.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#katalog-roboczy"><i class="fa fa-check"></i><b>5.1</b> Katalog roboczy</a></li>
+<li class="chapter" data-level="5.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#wczyt-danych"><i class="fa fa-check"></i><b>5.2</b> Wczyt danych</a><ul>
+<li class="chapter" data-level="5.2.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-tekstowy-csv-i-pokrewne"><i class="fa fa-check"></i><b>5.2.1</b> Format tekstowy (CSV i pokrewne)</a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadania-kontrolne"><i class="fa fa-check"></i>Zadania kontrolne</a></li>
+<li class="chapter" data-level="5.2.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#pliki-tekstowe-o-staej-szerokosci-kolumn"><i class="fa fa-check"></i><b>5.2.2</b> Pliki tekstowe o stałej szerokości kolumn</a></li>
+<li class="chapter" data-level="5.2.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-excela-.xls-.xlsx"><i class="fa fa-check"></i><b>5.2.3</b> Format Excela (.xls / .xlsx)</a></li>
+<li class="chapter" data-level="5.2.4" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#format-binarny-r"><i class="fa fa-check"></i><b>5.2.4</b> Format binarny <strong>R</strong></a></li>
+<li class="chapter" data-level="5.2.5" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#rds"><i class="fa fa-check"></i><b>5.2.5</b> RDS</a></li>
+</ul></li>
+<li class="chapter" data-level="5.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zapis-danych"><i class="fa fa-check"></i><b>5.3</b> Zapis danych</a><ul>
+<li class="chapter" data-level="5.3.1" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#dane-tekstowe-csv-i-pokrewne"><i class="fa fa-check"></i><b>5.3.1</b> Dane tekstowe (csv i pokrewne)</a></li>
+<li class="chapter" data-level="5.3.2" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#arkusze"><i class="fa fa-check"></i><b>5.3.2</b> Arkusze kalkulacyjne</a></li>
+<li class="chapter" data-level="5.3.3" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#formaty-natywne-r"><i class="fa fa-check"></i><b>5.3.3</b> Formaty natywne <strong>R</strong></a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadanie-domowe-2"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="wczyt-i-zapis-danych.html"><a href="wczyt-i-zapis-danych.html#zadanie-sprawdzajace"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="petle.html"><a href="petle.html"><i class="fa fa-check"></i><b>6</b> Pętle</a><ul>
+<li class="chapter" data-level="6.1" data-path="petle.html"><a href="petle.html#petla-for"><i class="fa fa-check"></i><b>6.1</b> Pętla <em>for</em></a><ul>
+<li class="chapter" data-level="6.1.1" data-path="petle.html"><a href="petle.html#zadania-treningowe---czesc-i"><i class="fa fa-check"></i><b>6.1.1</b> Zadania treningowe - część I</a></li>
+<li class="chapter" data-level="6.1.2" data-path="petle.html"><a href="petle.html#zadania-treningowe---czesc-ii"><i class="fa fa-check"></i><b>6.1.2</b> Zadania treningowe - część II</a></li>
+<li class="chapter" data-level="6.1.3" data-path="petle.html"><a href="petle.html#petla-w-petli"><i class="fa fa-check"></i><b>6.1.3</b> Pętla w pętli</a></li>
+<li class="chapter" data-level="6.1.4" data-path="petle.html"><a href="petle.html#wykorzystanie-petli-for-do-pobierania-danych"><i class="fa fa-check"></i><b>6.1.4</b> Wykorzystanie pętli for do pobierania danych</a></li>
+</ul></li>
+<li class="chapter" data-level="6.2" data-path="petle.html"><a href="petle.html#petla-while"><i class="fa fa-check"></i><b>6.2</b> Pętla <em>while</em></a><ul>
+<li class="chapter" data-level="6.2.1" data-path="petle.html"><a href="petle.html#przykad-z-petla-while"><i class="fa fa-check"></i><b>6.2.1</b> Przykład z pętlą <em>while</em></a></li>
+<li class="chapter" data-level="" data-path="petle.html"><a href="petle.html#zadanie-domowe-3"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="petle.html"><a href="petle.html#zadanie-sprawdzajace-1"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html"><i class="fa fa-check"></i><b>7</b> Czas i napisy</a><ul>
+<li class="chapter" data-level="7.1" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#date"><i class="fa fa-check"></i><b>7.1</b> Date</a><ul>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-sprawdzajace-2"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+<li class="chapter" data-level="7.1.1" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#w-jaki-sposob-najszybciej-utworzyc-ciag-dat"><i class="fa fa-check"></i><b>7.1.1</b> W jaki sposób najszybciej utworzyć ciąg dat?</a></li>
+<li class="chapter" data-level="7.1.2" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#operowanie-datami"><i class="fa fa-check"></i><b>7.1.2</b> Operowanie datami</a></li>
+<li class="chapter" data-level="7.1.3" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#biblioteka-lubridate"><i class="fa fa-check"></i><b>7.1.3</b> Biblioteka <code>lubridate</code></a></li>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie"><i class="fa fa-check"></i>Zadanie</a></li>
+</ul></li>
+<li class="chapter" data-level="7.2" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#posixct"><i class="fa fa-check"></i><b>7.2</b> POSIXct</a><ul>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-domowe-4"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+<li class="chapter" data-level="" data-path="czas-i-napisy.html"><a href="czas-i-napisy.html#zadanie-podsumowujace"><i class="fa fa-check"></i>Zadanie podsumowujące</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="8" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html"><i class="fa fa-check"></i><b>8</b> dplyr - część I</a><ul>
+<li class="chapter" data-level="8.1" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#aczenie-ramek-danych---left_join"><i class="fa fa-check"></i><b>8.1</b> Łączenie ramek danych - <code>left_join()</code></a><ul>
+<li class="chapter" data-level="8.1.1" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#aczenie-danych-po-dacie"><i class="fa fa-check"></i><b>8.1.1</b> Łączenie danych po dacie</a></li>
+<li class="chapter" data-level="" data-path="dplyr-czesc-i.html"><a href="dplyr-czesc-i.html#zadanie-domowe-5"><i class="fa fa-check"></i>Zadanie domowe</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="9" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html"><i class="fa fa-check"></i><b>9</b> dplyr - część II</a><ul>
+<li class="chapter" data-level="" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#dane"><i class="fa fa-check"></i>Dane</a></li>
+<li class="chapter" data-level="9.1" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#wybor-kolumn---select"><i class="fa fa-check"></i><b>9.1</b> Wybór kolumn - <code>select()</code></a></li>
+<li class="chapter" data-level="9.2" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#filtrowanie"><i class="fa fa-check"></i><b>9.2</b> Filtrowanie</a></li>
+<li class="chapter" data-level="9.3" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#sortowanie---arrange"><i class="fa fa-check"></i><b>9.3</b> Sortowanie - <code>arrange</code></a></li>
+<li class="chapter" data-level="9.4" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#przetwarzanie-potokowe"><i class="fa fa-check"></i><b>9.4</b> Przetwarzanie potokowe</a></li>
+<li class="chapter" data-level="9.5" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#group_by-oraz-summarise"><i class="fa fa-check"></i><b>9.5</b> <code>group_by()</code> oraz <code>summarise()</code></a></li>
+<li class="chapter" data-level="" data-path="dplyr-czesc-ii.html"><a href="dplyr-czesc-ii.html#zadanie-sprawdzajace-3"><i class="fa fa-check"></i>Zadanie sprawdzające</a></li>
+</ul></li>
+<li class="chapter" data-level="10" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html"><i class="fa fa-check"></i><b>10</b> Postać wąska i szeroka</a><ul>
+<li class="chapter" data-level="10.1" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#postac-waska"><i class="fa fa-check"></i><b>10.1</b> Postać wąska</a><ul>
+<li><a href="postac-waska-i-szeroka.html#konwersja-postaci-waskiej-do-szerokiej---spread">Konwersja postaci wąskiej do szerokiej - <code>spread()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.2" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#postac-szeroka"><i class="fa fa-check"></i><b>10.2</b> Postać szeroka</a><ul>
+<li><a href="postac-waska-i-szeroka.html#konwersja-postaci-szerokiej-do-waskiej---gather">Konwersja postaci szerokiej do wąskiej - <code>gather()</code></a></li>
+</ul></li>
+<li class="chapter" data-level="10.3" data-path="postac-waska-i-szeroka.html"><a href="postac-waska-i-szeroka.html#sklejanie-i-rozszczepianie-kolumn"><i class="fa fa-check"></i><b>10.3</b> Sklejanie i rozszczepianie kolumn</a></li>
+</ul></li>
+<li class="chapter" data-level="11" data-path="grafika.html"><a href="grafika.html"><i class="fa fa-check"></i><b>11</b> Grafika</a><ul>
+<li class="chapter" data-level="11.1" data-path="grafika.html"><a href="grafika.html#graphics"><i class="fa fa-check"></i><b>11.1</b> graphics</a></li>
+<li class="chapter" data-level="11.2" data-path="grafika.html"><a href="grafika.html#ggplot2"><i class="fa fa-check"></i><b>11.2</b> ggplot2</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="instalacja.html"><a href="instalacja.html"><i class="fa fa-check"></i>Instalacja</a><ul>
+<li><a href="instalacja.html#instalacja-r">Instalacja <strong>R</strong></a></li>
+<li><a href="instalacja.html#instalacja-rstudio">Instalacja <strong>RStudio</strong></a></li>
+<li class="chapter" data-level="" data-path="instalacja.html"><a href="instalacja.html#instalacja-bibliotek"><i class="fa fa-check"></i>Instalacja bibliotek</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="sprawy-organizacyjne.html"><a href="sprawy-organizacyjne.html"><i class="fa fa-check"></i>Sprawy organizacyjne</a><ul>
+<li class="chapter" data-level="" data-path="sprawy-organizacyjne.html"><a href="sprawy-organizacyjne.html#kolokwium-koncowe---przykadowe-zagadnienia"><i class="fa fa-check"></i>Kolokwium końcowe - przykładowe zagadnienia:</a></li>
+</ul></li>
+<li class="chapter" data-level="" data-path="bibliografia.html"><a href="bibliografia.html"><i class="fa fa-check"></i>Bibliografia</a></li>
+<li class="divider"></li>
+<li><a href="http://www.iqdata.pl" target="blank">Bartosz Czernecki 2017-18</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Metody przetwarzania danych meteorologicznych w języku programowania R</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="dplyr---czesc-ii" class="section level1">
+<h1><span class="header-section-number">Rozdział 9</span> dplyr - część II</h1>
+<p>W tej części zapoznawania się z możliwościami pakietu <code>dplyr</code> dowiesz się jak w szybki sposób manipulować ramkami danych.</p>
+<p><em>Ze względu na częste stosowanie rozwiazań z pakietów <code>dplyr</code> oraz <code>tidyr</code> najbardziej popularne rozwiązania zawarto w tzw. </em>cheat-sheet’ie* * <a href="https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf" class="uri">https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf</a></p>
+<hr />
+<div id="dane" class="section level2 unnumbered">
+<h2>Dane</h2>
+<p>Przed przystąpieniem do dalszej części pracy wczytaj do środowiska <strong>R</strong> godzinowe wartości pomiarów dla wybranych stacji meteorologicznych IMGW-PIB (2000-2015). Dane do ćwiczenia przygotowano w formacie RDS pod adresem: <a href="http://enwo.pl/przetwarzanie/dane/synop.rds" class="uri">http://enwo.pl/przetwarzanie/dane/synop.rds</a>. Nazwij wczytywany zbiór jako <code>dane</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Jeśli nie chcesz pobierać pliku na dysk możesz go wczytać bezpośrednio do R</span>
+<span class="co"># za pomocą poniższego kodu:</span>
+dane &lt;-<span class="st">  </span><span class="kw">readRDS</span>(<span class="kw">gzcon</span>(<span class="kw">url</span>(<span class="st">&quot;http://enwo.pl/przetwarzanie/dane/synop.rds&quot;</span>)))
+
+<span class="co"># ... Przyjrzyjmy się strukturze wczytanej bazy:</span>
+<span class="kw">head</span>(dane)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  1  1  0 -1.1  3 250 1014.2      8
+## 2 352160330   POZ 2000  1  1  1 -1.1  2 280 1014.2      8
+## 3 352160330   POZ 2000  1  1  2 -1.1  2 250 1014.3      8
+## 4 352160330   POZ 2000  1  1  3 -1.2  2 240 1014.3      8
+## 5 352160330   POZ 2000  1  1  4 -1.2  2 200 1014.3      8
+## 6 352160330   POZ 2000  1  1  5 -1.0  1 170 1014.3      8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># oraz:</span>
+<span class="kw">summary</span>(dane)</code></pre></div>
+<pre><code>##      kod               nazwa                 yy             mm        
+##  Length:420766      Length:420766      Min.   :2000   Min.   : 1.000  
+##  Class :character   Class :character   1st Qu.:2004   1st Qu.: 4.000  
+##  Mode  :character   Mode  :character   Median :2008   Median : 7.000  
+##                                        Mean   :2007   Mean   : 6.523  
+##                                        3rd Qu.:2012   3rd Qu.:10.000  
+##                                        Max.   :2015   Max.   :12.000  
+##        dd              hh             t2m               ws        
+##  Min.   : 1.00   Min.   : 0.00   Min.   :-30.10   Min.   : 0.000  
+##  1st Qu.: 8.00   1st Qu.: 6.00   1st Qu.:  2.30   1st Qu.: 2.000  
+##  Median :16.00   Median :12.00   Median :  9.20   Median : 3.000  
+##  Mean   :15.73   Mean   :11.50   Mean   :  9.16   Mean   : 3.492  
+##  3rd Qu.:23.00   3rd Qu.:17.75   3rd Qu.: 15.90   3rd Qu.: 5.000  
+##  Max.   :31.00   Max.   :23.00   Max.   : 36.90   Max.   :20.000  
+##        wd             slp              tot_cl     
+##  Min.   :  0.0   Min.   :   0.08   Min.   :0.000  
+##  1st Qu.:101.0   1st Qu.: 993.80   1st Qu.:3.000  
+##  Median :200.0   Median :1000.70   Median :6.000  
+##  Mean   :190.3   Mean   :1000.39   Mean   :5.191  
+##  3rd Qu.:270.0   3rd Qu.:1007.20   3rd Qu.:7.000  
+##  Max.   :999.0   Max.   :1038.90   Max.   :9.000</code></pre>
+</div>
+<div id="wybor-kolumn---select" class="section level2">
+<h2><span class="header-section-number">9.1</span> Wybór kolumn - <code>select()</code></h2>
+<p>Niejednokrotnie wczytywane przez nas zbiory danych meteorologicznych zawierają znacznie więcej kolumn niż potrzebujemy. Jeśli chcemy wybrać lub pozbyć się niektórych kolumn najwygodniej użyć funkcji <code>select()</code>.</p>
+<p>Korzystanie z funkcji <code>select()</code> wymaga podania jako pierwszego argumentu nazwy zbioru, a następnie po przecinku (bez *&quot; “*) należy podać nazwy kolumn (w dowolnej kolejności) które mają zostać wyświetlone.</p>
+<p><strong>Przykład:</strong> Jeśli chcemy wybrać jedynie wartości z nazwą stacji, rokiem, miesiącem, dniem, godziną, temperaturą powietrza oraz zachmurzeniem składnia takiego polecenia wyglądała by następująco:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr) <span class="co"># nie zapomnijmy o aktywacji paczki dplyr po uruchomieniu RStudio!</span>
+test &lt;-<span class="st"> </span><span class="kw">select</span>(dane, nazwa, yy, mm, dd, hh, t2m, tot_cl) 
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##   nazwa   yy mm dd hh  t2m tot_cl
+## 1   POZ 2000  1  1  0 -1.1      8
+## 2   POZ 2000  1  1  1 -1.1      8
+## 3   POZ 2000  1  1  2 -1.1      8
+## 4   POZ 2000  1  1  3 -1.2      8
+## 5   POZ 2000  1  1  4 -1.2      8
+## 6   POZ 2000  1  1  5 -1.0      8</code></pre>
+<p>W powyższym przykładzie konieczne było podanie aż 7 z 11 nazw kolumn. W takim przypadku można wykorzystać opcję eliminacji wybranych kolumn poprzez zastosowanie znaku minusa ( <code>-</code> ) w odniesniu do kolumn których chcemy się pozbyć. Taki sam efekt jak we wcześniejszym przykładzie można uzyskać zatem poprzez:</p>
+<p><strong>Przykład:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">select</span>(dane, <span class="op">-</span>kod, <span class="op">-</span>ws, <span class="op">-</span>wd, <span class="op">-</span>slp)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##   nazwa   yy mm dd hh  t2m tot_cl
+## 1   POZ 2000  1  1  0 -1.1      8
+## 2   POZ 2000  1  1  1 -1.1      8
+## 3   POZ 2000  1  1  2 -1.1      8
+## 4   POZ 2000  1  1  3 -1.2      8
+## 5   POZ 2000  1  1  4 -1.2      8
+## 6   POZ 2000  1  1  5 -1.0      8</code></pre>
+<p>Kolejne ciekawe zastosowane <code>select</code>a polega na zastosowaniu jako operatora <code>:</code> (dwukropka), który wybierze wszystkie kolumny znajdujące się w zakresie od wskazanej do wskazanej nazwy. Wcześniejsze poleceni</p>
+<p><strong>Przykład:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">select</span>(dane, nazwa<span class="op">:</span>hh,t2m, tot_cl)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##   nazwa   yy mm dd hh  t2m tot_cl
+## 1   POZ 2000  1  1  0 -1.1      8
+## 2   POZ 2000  1  1  1 -1.1      8
+## 3   POZ 2000  1  1  2 -1.1      8
+## 4   POZ 2000  1  1  3 -1.2      8
+## 5   POZ 2000  1  1  4 -1.2      8
+## 6   POZ 2000  1  1  5 -1.0      8</code></pre>
+<p>Więcej praktycznych przykładów zastosowania pakietu <code>dplyr</code> można znaleźć w rzeczonym we wstępie do niniejszego rozdziału <em>cheat-sheetcie</em> w podrozdziale <em>Helper functions for select… </em> .</p>
+<p><strong>Zadanie:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Wybierz ze zbioru <code>dane</code> tylko kolumny dla nazwy, kodu, roku, miesiąca oraz zredukowanego ciśnienia atmosferycznego i zapisz je do zbioru <code>test</code></li>
+<li>Wybierz ze zbioru <code>dane</code> tylko kolumny z nazwami stacji oraz wszystkich parametrów meteorologicznych. Zastosuj zapis negacji (tj. z wykorzystaniem znaku minusa) dla usuwanych kolumn i zapisz wynik działania jako <code>test2</code></li>
+</ol>
+</div>
+<div id="filtrowanie" class="section level2">
+<h2><span class="header-section-number">9.2</span> Filtrowanie</h2>
+<p>Duże zbiory danych meteorologicznych wymagają odfiltrowania (usunięcia/wybrania) części informacji zapisanych w wierszach. Odfiltrowywanie danych jest w wielu przypadkach wymagane np. w celu znalezienia i eliminacji błędów z bazy danych lub uzyskania kształtu ramki danych tylko dla interesujących nas przypadków.</p>
+<p>Do wyświetlania/usuwania wybranych wierszy (oprócz poznanych wcześniej operatorów <code>[]</code> oraz operatorów zapytań logicznych) wygodne w użyciu może okazać się wykorzystanie funkcji <code>filter()</code>.</p>
+<p><strong>Przykład 1</strong> Baza <code>dane</code> zawiera wartości pomiarowe dla kilku stacji meteorologicznych. Informacje o tym jakie to są stacje można sprawdzić wyświetlając np. unikalne wartości kolumny <code>kod</code> lub <code>nazwa</code>.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(dane<span class="op">$</span>nazwa) <span class="co"># wyświetla wartości unikalne z podanego wektora</span></code></pre></div>
+<pre><code>## [1] &quot;POZ&quot; &quot;WAR&quot; &quot;LOD&quot;</code></pre>
+<p>Okazuje się, że w bazie są dane dla 3 stacji IMGW-PIB, które oznaczono w bazie 3 literowymi skrótami: Poznań (POZ), Warszawa (WAR) oraz ŁÓDŹ (LOD). Jeśli do naszej dalszej pracy potrzebna jest tylko 1 stacja (np. Poznań), wówczas możemy odfiltrować wiersze tylko do tych zawierających słowo “POZ” w kolumnie <code>nazwa</code>:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">filter</span>(dane, nazwa<span class="op">==</span><span class="st">&quot;POZ&quot;</span>)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  1  1  0 -1.1  3 250 1014.2      8
+## 2 352160330   POZ 2000  1  1  1 -1.1  2 280 1014.2      8
+## 3 352160330   POZ 2000  1  1  2 -1.1  2 250 1014.3      8
+## 4 352160330   POZ 2000  1  1  3 -1.2  2 240 1014.3      8
+## 5 352160330   POZ 2000  1  1  4 -1.2  2 200 1014.3      8
+## 6 352160330   POZ 2000  1  1  5 -1.0  1 170 1014.3      8</code></pre>
+<p>Zwróć uwagę, że nazwę kolumny (<code>nazwa</code>) ponownie wpisaliśmy bez cudzysłowów, natomiast poszukiwana wartość (POZ) jest tekstem, więc tym razem konieczne było zastosowanie <code>&quot; &quot;</code>.</p>
+<p><strong>Przykład 2</strong> Stosowane operatory logiczne dla funkcji <code>filter()</code> są tożsame z poznanymi we wcześniejszych częściach naszego kursu. Jeśli chcemy jednocześnie odfiltrować np. tylko wiersze, które zawierają w kolumnie nazwa wartości “POZ” i jednocześnie obejmują miesiące meteorologicznego lata (VI-VIII), to składnia takiego polecenia może być następująca:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">filter</span>(dane, nazwa<span class="op">==</span><span class="st">&quot;POZ&quot;</span>, mm<span class="op">&gt;=</span><span class="dv">6</span> <span class="op">&amp;</span><span class="st"> </span>mm<span class="op">&lt;=</span><span class="dv">8</span>)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  6  1  0 4.6  1 280 1013.2      0
+## 2 352160330   POZ 2000  6  1  1 4.6  0   0 1013.6      2
+## 3 352160330   POZ 2000  6  1  2 3.3  0   0 1013.7      2
+## 4 352160330   POZ 2000  6  1  3 3.5  1 360 1014.0      3
+## 5 352160330   POZ 2000  6  1  4 6.2  1  90 1014.3      3
+## 6 352160330   POZ 2000  6  1  5 9.7  2 100 1014.6      3</code></pre>
+<p><strong>Przykład 3</strong> Powyższy przykład z wyborem więcej niż jednej pasującej wartości w danej kolumnie nie zawsze musi być tak trywialny aby dało się go rozpisać za pomocą pojedynczego wyrażenia logicznego. W takich przypadkach można zastosować odfiltrowywanie wierszy za pomocą porównania więcej niż jednego elementu, który musi zostać zadeklarowany jako wektor po operatorze <code>%in%</code> .</p>
+<p>Jeśli interesują nas tylko wiersze obejmujące miesiące zimowe (XII-II) i tylko z Poznania (POZ) oraz Łodzi możemy spróbować działanie poniższej komendy:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">filter</span>(dane, nazwa <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;POZ&quot;</span>,<span class="st">&quot;LOD&quot;</span>), mm <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">12</span>,<span class="dv">1</span>,<span class="dv">2</span>))
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  1  1  0 -1.1  3 250 1014.2      8
+## 2 352160330   POZ 2000  1  1  1 -1.1  2 280 1014.2      8
+## 3 352160330   POZ 2000  1  1  2 -1.1  2 250 1014.3      8
+## 4 352160330   POZ 2000  1  1  3 -1.2  2 240 1014.3      8
+## 5 352160330   POZ 2000  1  1  4 -1.2  2 200 1014.3      8
+## 6 352160330   POZ 2000  1  1  5 -1.0  1 170 1014.3      8</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(test<span class="op">$</span>mm) <span class="co"># sprawdzmy czy na pewno sa tylko miesiace zimowe</span></code></pre></div>
+<pre><code>## [1]  1  2 12</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">unique</span>(test<span class="op">$</span>nazwa) <span class="co"># sprawdzmy czy na pewno sa tylko wybrane stacje</span></code></pre></div>
+<pre><code>## [1] &quot;POZ&quot; &quot;LOD&quot;</code></pre>
+<p><strong>Przykład 4</strong> Rozpoznanie błędów w bazach danych meteorologicznych nie należy do zadań łatwych. Część błędów można jednak dość łatwo rozpoznać znając fizyczne ograniczenia występujących wartości. Sprawdźmy naszą bazę pod tym kątem na przykładzie zachmurzenia ogólnego nieba, które jest podawane w oktantach (0-8). Jeśli chcemy sprawdzić czy istnieją wartości nie mieszczące się w tym zakresie możemy spróbować zdefiniować takie zapytanie logiczne, które umożliwi nam zweryfikowanie takich informacji i zapisanie ich do nowego obiektu:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">bledy &lt;-<span class="st"> </span><span class="kw">filter</span>(dane, tot_cl<span class="op">&lt;</span><span class="dv">0</span> <span class="op">|</span><span class="st"> </span>tot_cl<span class="op">&gt;</span><span class="dv">8</span>)
+<span class="kw">head</span>(bledy)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  3 23  5 -1.6  1 210 1004.5      9
+## 2 352160330   POZ 2000  3 26  1  3.4  1 190 1003.1      9
+## 3 352160330   POZ 2000  3 26  2  3.4  1 200 1002.9      9
+## 4 352160330   POZ 2000  9  5 23  7.8  0   0 1008.6      9
+## 5 352160330   POZ 2000  9  6  0  8.7  1 350 1008.6      9
+## 6 352160330   POZ 2000  9  6  1  7.3  0   0 1008.6      9</code></pre>
+<p>** Zadanie **</p>
+<ol style="list-style-type: decimal">
+<li>Znajdź wiersze w których ciśnienie atmosferyczne zawiera błędne dane</li>
+<li>Odfiltruj bazę danych w taki sposób aby zawierały tylko dane dla Poznania i Warszawy. Wynik zapisz do nowego obiektu <code>test1</code></li>
+<li>Odfiltruj bazę danych <code>test1</code> w taki sposób aby nowa baza <code>test2</code> zawierała tylko dane dla Poznania, z miesięcy letnich po roku 2005 4a. Oblicz (a) średnią, (b) minimalną i (c) maksymalną temperaturę powietrza jaka wystąpiła w Poznaniu w tym czasie. 4b. Oblicz (a) średnią (b) oraz maksymalną prędkość wiatru</li>
+</ol>
+<p><em>Podpowiedź: Szybkie filtrowanie danych jest dostępne również za pomocą graficznej przeglądarki RStudio po kliknięciu w ikonę <code>Filter</code> (ale bez możliwości zapisania wykonanego zapytania do pliku). W trybie graficznym możliwe jest także sortowanie wierszy po kliknięciu (jedno- lub dwukrotnym) w nazwę danej kolumny.</em></p>
+<div class="figure">
+<img src="figures/rstudio_filter.png" alt="Ekran początkowy programu RStudio" />
+<p class="caption">Ekran początkowy programu <strong>RStudio</strong></p>
+</div>
+</div>
+<div id="sortowanie---arrange" class="section level2">
+<h2><span class="header-section-number">9.3</span> Sortowanie - <code>arrange</code></h2>
+<p>Sortowanie wierszy w <strong>R</strong> możliwe jest na co najmniej kilka sposobów. W pakiecie <code>dplyr</code> funkcja odpowiedzialna za sortowanie ramek danych to <code>arrange()</code>. Działa ona bardzo podobnie do <code>select()</code>, gdzie na pierwszym miejscu jako argument podaje się nazwę ramki danych, a w kolejnych nazwy kolumn.</p>
+<p><strong>Przykład 1</strong> Wyświetlmy kilka najchłodniejszych pomiarów (kolumna t2m) z całej bazy (domyślnie sortowanie odbywa się od wartości najmniejszych do największych):</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">arrange</span>(dane, t2m)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh   t2m ws  wd    slp tot_cl
+## 1 351190465   LOD 2006  1 23  6 -30.1  0   0 1023.0      0
+## 2 351190465   LOD 2006  1 23  3 -29.7  1 180 1022.0      0
+## 3 351190465   LOD 2006  1 23  5 -29.7  0   0 1023.0      0
+## 4 351190465   LOD 2006  1 23  2 -29.5  0   0 1022.0      0
+## 5 351190465   LOD 2006  1 23  7 -29.5  0   0 1023.5      0
+## 6 351190465   LOD 2006  1 22 23 -28.8  1 240 1021.0      0</code></pre>
+<p><strong>Przykład 2</strong> Jeśli chcemy zmienić domyślną (narastającą) kolejność sortowania możemy odwrócić kierunek sortowania za pomocą znaku minusa przy nazwie kolumny. Sprawdźmy zatem kilka rekordowych wartości temperatur powietrza zanotowanych na analizowanych stacjach:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">arrange</span>(dane, <span class="op">-</span>t2m)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 351190465   LOD 2013  8  8 14 36.9  6 204  989.8      2
+## 2 352160330   POZ 2015  8  8 14 36.8  1 137 1004.9      1
+## 3 352200375   WAR 2013  8  8 13 36.7  4 152 1000.0      2
+## 4 352200375   WAR 2013  8  8 15 36.7  2 191  999.8      4
+## 5 352200375   WAR 2013  8  8 14 36.6  2 185 1000.0      4
+## 6 351190465   LOD 2013  8  8 13 36.5  7 208  989.8      4</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># okazuje sie, ze wszedzie najcieplejszy byl 8. sierpnia, choc...</span></code></pre></div>
+<p>** Przykład 3 **</p>
+<p>W przypadku w którym wartości sortowane mają takie same wartości często wykorzystywaną procedurą jest sortowanie po większej liczbie kolumn. Spróbujmy zatem ułożyć dane nie w kolejności dla stacji, ale po datach. Jako że wartości dla dat przechowywane są w 4 kolumnach (od “yy” do “hh”) ważne jest określenie odpowiedniej kolejności sortowania:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test &lt;-<span class="st"> </span><span class="kw">arrange</span>(dane, yy,mm,dd,hh,nazwa)
+<span class="kw">head</span>(test)</code></pre></div>
+<pre><code>##         kod nazwa   yy mm dd hh  t2m ws  wd    slp tot_cl
+## 1 352160330   POZ 2000  1  1  0 -1.1  3 250 1014.2      8
+## 2 351190465   LOD 2000  1  1  1 -1.8  2 270 1001.6      8
+## 3 352160330   POZ 2000  1  1  1 -1.1  2 280 1014.2      8
+## 4 352200375   WAR 2000  1  1  1  0.0  2 280 1011.2      8
+## 5 351190465   LOD 2000  1  1  2 -1.7  1 250 1001.5      8
+## 6 352160330   POZ 2000  1  1  2 -1.1  2 250 1014.3      8</code></pre>
+<p>** Zadanie **</p>
+<ol style="list-style-type: decimal">
+<li>Posortuj dane w kolejności od największych do najmniejszych prędkości wiatru. Zapisz wynik sortowania do obiektu <code>test</code></li>
+<li>Korzystając z komendy <code>table()</code> policz ile razy każda ze stacji pojawia się w zestawieniu 30-tu pomiarów z największymi prędkościami wiatru</li>
+</ol>
+</div>
+<div id="przetwarzanie-potokowe" class="section level2">
+<h2><span class="header-section-number">9.4</span> Przetwarzanie potokowe</h2>
+<p>Pakiet <code>dplyr</code> zrewolucjonizował przetwarzanie danych w środowisku <strong>R</strong> na wiele sposobów. Jednym z nich jest zastosowanie przetwarzania potokowego (zwanego również przetwarzaniem sekwencyjnym), które nie tylko zwiększa czytelność tworzonego kodu, ale także pozwala na pominięcie kroków pośrednich, które normalnie <em>zapychałyby</em> środowisko obliczeniowe.</p>
+<p>W przetwarzaniu potokowym cykl przetwarzania dzieli się na odrębne bloki, z których każdy jest połączony z następnym. Dane po przejściu przez jeden blok trafiają do następnego, aż osiągną ostatni blok.</p>
+<div class="figure">
+<img src="figures/przetwarzanie_potokowe1.png" alt="Schemat typowego przebiegu przetwarzania potokowego przy analizie danych" />
+<p class="caption">Schemat typowego przebiegu przetwarzania potokowego przy analizie danych</p>
+</div>
+<p>Operatorem przetwarzania potokowego w <strong>R</strong> jest <code>%&gt;%</code> , który można wygenerować w <em>RStudio</em> za pomocą skrótu klawiszowego <code>ctrl+shift+m</code>. Operator <code>%&gt;%</code> przekierowuje strumień informacji do kolejnej komendy <strong>R</strong>, która działając na tymczasowym obiekcie przekazuje jej wynik do kolejnego bloku obliczeń. Jeśli zaistnieje konieczność odwołania się do informacji zawartych w strumieniu danych można się do niego odwołać poprzez symbol <code>.</code> (kropki).</p>
+<div class="figure">
+<img src="figures/przetwarzanie_potokowe2.png" alt="Przetwarzanie potokowego w R" />
+<p class="caption">Przetwarzanie potokowego w <strong>R</strong></p>
+</div>
+<p><strong>Przykład 1</strong> Na początek przypomnijmy sobie zawartość wbudowanego zbioru <code>airquality</code></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(airquality)</code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day    TempC
+## 1    41     190  7.4  100     5   1 37.77778
+## 2    36     118  8.0   72     5   2 22.22222
+## 3    12     149 12.6   74     5   3 23.33333
+## 4    18     313 11.5   62     5   4 16.66667
+## 5    NA      NA 14.3   56     5   5 13.33333
+## 6    28      NA 14.9   66     5   6 18.88889</code></pre>
+<p>Ten sam efekt możemy uzyskać stosując przetwarzanie potokowe, wiedząc, że każda <code>funkcja(x)</code> w postaci przetwarzania potokowego to <code>x %&gt;% funkcja()</code>, zatem:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">head</span>() <span class="co">#lub: airquality %&gt;% head(.)</span></code></pre></div>
+<pre><code>##   Ozone Solar.R Wind Temp Month Day    TempC
+## 1    41     190  7.4  100     5   1 37.77778
+## 2    36     118  8.0   72     5   2 22.22222
+## 3    12     149 12.6   74     5   3 23.33333
+## 4    18     313 11.5   62     5   4 16.66667
+## 5    NA      NA 14.3   56     5   5 13.33333
+## 6    28      NA 14.9   66     5   6 18.88889</code></pre>
+<p><strong>Przykład 2</strong> Jeśli chcemy wybrać jedynie dni, w których (1) temperatura powietrza przekroczyła 90F, (2) chcemy się pozbyć niechcianych kolumn pozostawiając jedynie kolumny <code>Temp i Month i Day</code>, (3) chcemy posortować te dni w kolejności od najcieplejszych do najchłodniejszych, to ten efekt przy klasycznym przetwarzaniu danych byłby rozpisany w kilku krokach:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">krok1 &lt;-<span class="st"> </span><span class="kw">filter</span>(airquality, Temp<span class="op">&gt;</span><span class="dv">90</span>) <span class="co"># wybieramy wiersza w których temperatura powietrza &gt; 90</span>
+krok2 &lt;-<span class="st"> </span><span class="kw">select</span>(krok1, Temp<span class="op">:</span>Day) <span class="co"># wybieramy tylko wskazane kolumny</span>
+krok3 &lt;-<span class="st"> </span><span class="kw">arrange</span>(krok2, <span class="op">-</span>Temp) <span class="co"># sortujemy od najwyższych do najniższych temperatur</span></code></pre></div>
+<p>Teoretycznie ten sam efekt można uzyskać w jednym kroku, stosując np. tzw. zapis na <em>cebulkę</em>, choć jego czytelność pozostawia wiele do życzenia:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">  <span class="kw">arrange</span>(
+    <span class="kw">select</span>( 
+      <span class="kw">filter</span>(airquality, Temp<span class="op">&gt;</span><span class="dv">90</span>), <span class="co"># pierwsza funkcja </span>
+    Temp<span class="op">:</span>Day), <span class="co"># dokończenie funkcji select</span>
+ <span class="op">-</span>Temp) <span class="co"># dokończenie funkcji arrange</span></code></pre></div>
+<pre><code>##    Temp Month Day
+## 1   100     5   1
+## 2    97     8  28
+## 3    96     8  30
+## 4    94     8  29
+## 5    94     8  31
+## 6    93     6  11
+## 7    93     9   3
+## 8    93     9   4
+## 9    92     6  12
+## 10   92     7   8
+## 11   92     7   9
+## 12   92     8  10
+## 13   92     9   2
+## 14   91     7  14
+## 15   91     9   1</code></pre>
+<p><strong>Przy zastosowaniu przetwarzania potokowego:</strong></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">airquality <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(Temp<span class="op">&gt;</span><span class="dv">90</span>) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">select</span>(Temp<span class="op">:</span>Day) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">arrange</span>(<span class="op">-</span>Temp)</code></pre></div>
+<pre><code>##    Temp Month Day
+## 1   100     5   1
+## 2    97     8  28
+## 3    96     8  30
+## 4    94     8  29
+## 5    94     8  31
+## 6    93     6  11
+## 7    93     9   3
+## 8    93     9   4
+## 9    92     6  12
+## 10   92     7   8
+## 11   92     7   9
+## 12   92     8  10
+## 13   92     9   2
+## 14   91     7  14
+## 15   91     9   1</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># lub w wersji z kropką: airquality %&gt;% filter(., Temp&gt;90) %&gt;% select(., Temp:Day) %&gt;% arrange(., -Temp)</span></code></pre></div>
+<p><strong>Zadanie:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Pobierz ponownie dane z pliku <a href="http://enwo.pl/przetwarzanie/dane/synop.rds" class="uri">http://enwo.pl/przetwarzanie/dane/synop.rds</a> i zapisz jako obiekt <code>dane</code> (możesz także wykorzystać gotowy kod: <code>dane &lt;-  readRDS(gzcon(url(&quot;http://enwo.pl/przetwarzanie/dane/synop.rds&quot;)))</code> )</li>
+<li>Korzystając z przetwarzania potokowego wybierz jedynie dane meteorologiczne dla Poznania</li>
+<li>W kolejnym bloku kodu wybierz jedynie miesiące letnie (VI-VIII)</li>
+<li>W kolejnym bloku kodu uszereguj wyniki od najniższych temperatur jakie odnotowano latem</li>
+<li>Zapisz rezultat działania do nowego obiektu, który nazwiesz <code>wynik</code></li>
+</ol>
+</div>
+<div id="group_by-oraz-summarise" class="section level2">
+<h2><span class="header-section-number">9.5</span> <code>group_by()</code> oraz <code>summarise()</code></h2>
+<p>Z punktu widzenia przetwarzania danych w naukach atmosferycznych niezwykle ważna jest możliwość szybkiego tworzenia tzw. agregatów, czyli tworzenia podsumowań dla analizowanych zbiorów danych. Do tego celu niezwykle przydatne są 2 funkcje z pakietu <code>dplyr</code>: <code>group_by()</code> oraz <code>summarise()</code>.</p>
+<p>Jak sama nazwa wskazuje funkcja <code>group_by()</code> grupuje zbiory danych po unikalnych wartościach we wskazanych kolumnach ramki danych. Przykładowo, jeśli wskażemy do grupowania kolumny <code>yy, mm, dd</code>, wówczas będą one grupowały poszczególne wiersze w ramce danych jak na wskazanym poniżej przykładzie:</p>
+<div class="figure">
+<img src="figures/group_by.png" alt="Zasięg oddziaływania funkcji group_by() przy wskazaniu jako grupujących kolumn yy, mm, dd" />
+<p class="caption">Zasięg oddziaływania funkcji <code>group_by()</code> przy wskazaniu jako grupujących kolumn yy, mm, dd</p>
+</div>
+<p>Samo grupowanie nie daje widocznych efektów. Jego wynik może być jednak z powodzeniem wykorzystany przez funkcję <code>summarise()</code>, która pozwala na wykonanie dowolnej funkcji w obrębie wydzielonych zagregowań. Takie postępowanie można z powodzeniem wykorzystać do obliczenia podstawowych statystyk meteorologicznych/klimatologicznych.</p>
+<p><strong>Przykład 1</strong> Poniższy fragment kodu grupujący po kolumnie <code>yy</code> (lata) pozwoli na zgrupowanie wszystkich wierszy, które zawierają takie same wartości w tej kolumnie (tu: rok). Następnie dane są przekazywane do do funkcji <code>summarise()</code>, w której obliczamy średnie z kolumny z wartościami temperatury:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dane <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(yy) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>( <span class="kw">mean</span>(t2m)  )</code></pre></div>
+<pre><code>## # A tibble: 16 x 2
+##       yy `mean(t2m)`
+##    &lt;int&gt;       &lt;dbl&gt;
+##  1  2000        9.76
+##  2  2001        8.47
+##  3  2002        9.38
+##  4  2003        8.61
+##  5  2004        8.66
+##  6  2005        8.80
+##  7  2006        9.20
+##  8  2007        9.71
+##  9  2008        9.85
+## 10  2009        8.92
+## 11  2010        7.77
+## 12  2011        9.30
+## 13  2012        8.96
+## 14  2013        8.87
+## 15  2014       10.1 
+## 16  2015       10.2</code></pre>
+<p>Czy uzyskany zbiór danych zawiera informacje dla temperatury średniej rocznej w Poznaniu? <strong>Nie!</strong> W ramce danych mamy pomiary z kilku stacji meteorologicznych. Z tego względu bez względu czy pomiar był w Poznaniu czy Łodzi, czy w Warszawie wszystkie pomiary z danego roku zostały wrzucone do tej samej grupy (agregaty). W takim przypadku konieczne jest albo wcześniejsze odfiltrowania zbioru danych, albo rozszerzenie argumentów funkcji <code>group_by()</code>, tak aby wykonała obliczenia dla większej liczby stacji, np.:</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dane <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">group_by</span>(nazwa, yy) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>( <span class="kw">mean</span>(t2m)  )</code></pre></div>
+<pre><code>## # A tibble: 48 x 3
+## # Groups:   nazwa [?]
+##    nazwa    yy `mean(t2m)`
+##    &lt;chr&gt; &lt;int&gt;       &lt;dbl&gt;
+##  1 LOD    2000        9.60
+##  2 LOD    2001        8.13
+##  3 LOD    2002        9.10
+##  4 LOD    2003        8.53
+##  5 LOD    2004        8.53
+##  6 LOD    2005        8.64
+##  7 LOD    2006        8.87
+##  8 LOD    2007        9.35
+##  9 LOD    2008        9.58
+## 10 LOD    2009        8.63
+## # ... with 38 more rows</code></pre>
+<p><strong>Zadanie:</strong></p>
+<ol style="list-style-type: decimal">
+<li>Oblicz średnie miesięczne temperatury powietrza w wieloleciu 2000-2015 w Poznaniu (czyli np. I:-0.2*C, II:-2.1, III:+2.6, itd.)</li>
+<li>Oblicz maksymalne temperatury jakie wystąpiły w każdym z miesięcy w wieloleciu 2000-2015 w Poznaniu (czyli np. 2000-I: +2.8*C, 2000-II:+6.1, 2000-III:+12.6, itd.)</li>
+<li>Oblicz sumę temperatur w każdym dniu kalendarzowym w Poznaniu (analogiczną procedurę można by było zastosować np. do opadów atmosferycznych)</li>
+</ol>
+<p><em>Wskazówka:</em> Nazwy kolumn w funkcji <code>summarise()</code> można dowolnie definiować. Przykładowo, jeśli chcielibyśmy obliczyć jednocześnie temperaturę maksymalną i minimalną dobową w Poznaniu latem 2015 r., wówczas kolumny wynikowe możemy odpowiednio nazwać: `</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dane <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">filter</span>(., nazwa<span class="op">==</span><span class="st">&quot;POZ&quot;</span>, yy<span class="op">==</span><span class="dv">2015</span>, mm <span class="op">%in%</span><span class="st"> </span><span class="kw">c</span>(<span class="dv">6</span><span class="op">:</span><span class="dv">8</span>)) <span class="op">%&gt;%</span><span class="st">  </span><span class="kw">group_by</span>(yy,mm,dd) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">summarise</span>( <span class="dt">temp_min=</span><span class="kw">min</span>(t2m, <span class="dt">na.rm=</span>T) , <span class="dt">temp_max=</span><span class="kw">max</span>(t2m, <span class="dt">na.rm=</span>T) )</code></pre></div>
+<pre><code>## # A tibble: 92 x 5
+## # Groups:   yy, mm [?]
+##       yy    mm    dd temp_min temp_max
+##    &lt;int&gt; &lt;int&gt; &lt;int&gt;    &lt;dbl&gt;    &lt;dbl&gt;
+##  1  2015     6     1     12.5     22.6
+##  2  2015     6     2     10.7     24.9
+##  3  2015     6     3     12.1     28.4
+##  4  2015     6     4      9.2     21.7
+##  5  2015     6     5      9.7     26.1
+##  6  2015     6     6     15.2     31.6
+##  7  2015     6     7     11.8     18.2
+##  8  2015     6     8      9.2     20.5
+##  9  2015     6     9      8.2     14.8
+## 10  2015     6    10      8.6     20.7
+## # ... with 82 more rows</code></pre>
+<p> </p>
+<hr />
+</div>
+<div id="zadanie-sprawdzajace-3" class="section level2 unnumbered">
+<h2>Zadanie sprawdzające</h2>
+<!-- https://goo.gl/forms/KzrTeavRMi3dixNp2 -->
+
+</div>
+</div>
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71227265-3', 'auto');
+  ga('send', 'pageview');
+
+</script>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="dplyr-czesc-i.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="postac-waska-i-szeroka.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"weibo": false,
+"instapper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": "https://github.com/bczernecki/przetwarzanie/edit/master/09-dplyr.Rmd",
+"text": "https://github.com/bczernecki/przetwarzanie/edit/master/%s"
+},
+"download": ["ksiazka.pdf", "ksiazka.epub"],
+"toc": {
+"collapse": "section"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(script.src))
+      script.src  = script.src.replace(/^https?:/, '');
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>
